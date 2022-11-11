@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f6eceb661da843d091a4f256a2a90684" Name="Diagram1" ZoomLevel="82">
+        <EntityTypeShape EntityType="db_okulModel.bolum" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_okulModel.ders" Width="1.5" PointX="5.25" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_okulModel.ogrenci" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_okulModel.ogrenci_ders" Width="1.5" PointX="7.5" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_okulModel.ogretmen" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_okulModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="db_okulModel.ders_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_okulModel.ogrenci_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_okulModel.ogretmen_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_okulModel.ogrenci_ders_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="db_okulModel.ogrenci_ders_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_okulModel.ogretmen_ders" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

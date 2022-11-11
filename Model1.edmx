@@ -1,0 +1,678 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="db_okulModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="bolum">
+          <Key>
+            <PropertyRef Name="bid" />
+          </Key>
+          <Property Name="bid" Type="int" Nullable="false" />
+          <Property Name="badi" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="aciklama" Type="varchar" MaxLength="50" />
+          <Property Name="eposta" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="ders">
+          <Key>
+            <PropertyRef Name="did" />
+          </Key>
+          <Property Name="did" Type="int" Nullable="false" />
+          <Property Name="dadi" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="dkodu" Type="varchar" MaxLength="50" />
+          <Property Name="kredi" Type="int" />
+          <Property Name="bid" Type="int" />
+        </EntityType>
+        <EntityType Name="ogrenci">
+          <Key>
+            <PropertyRef Name="ono" />
+          </Key>
+          <Property Name="ono" Type="int" Nullable="false" />
+          <Property Name="adi" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="soyadi" Type="varchar" MaxLength="30" />
+          <Property Name="dyeri" Type="varchar" MaxLength="50" />
+          <Property Name="bid" Type="int" />
+        </EntityType>
+        <EntityType Name="ogrenci_ders">
+          <Key>
+            <PropertyRef Name="ono" />
+            <PropertyRef Name="did" />
+          </Key>
+          <Property Name="ono" Type="int" Nullable="false" />
+          <Property Name="did" Type="int" Nullable="false" />
+          <Property Name="nott" Type="float" />
+        </EntityType>
+        <EntityType Name="ogretmen">
+          <Key>
+            <PropertyRef Name="oid" />
+          </Key>
+          <Property Name="oid" Type="int" Nullable="false" />
+          <Property Name="adi" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="soyadi" Type="varchar" MaxLength="30" />
+          <Property Name="dyeri" Type="varchar" MaxLength="50" />
+          <Property Name="bid" Type="int" />
+        </EntityType>
+        <EntityType Name="ogretmen_ders">
+          <Key>
+            <PropertyRef Name="oid" />
+            <PropertyRef Name="did" />
+          </Key>
+          <Property Name="oid" Type="int" Nullable="false" />
+          <Property Name="did" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="ders_ibfk_1">
+          <End Role="bolum" Type="Self.bolum" Multiplicity="0..1" />
+          <End Role="ders" Type="Self.ders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bolum">
+              <PropertyRef Name="bid" />
+            </Principal>
+            <Dependent Role="ders">
+              <PropertyRef Name="bid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ogrenci_ders_ibfk_1">
+          <End Role="ogrenci" Type="Self.ogrenci" Multiplicity="1" />
+          <End Role="ogrenci_ders" Type="Self.ogrenci_ders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ogrenci">
+              <PropertyRef Name="ono" />
+            </Principal>
+            <Dependent Role="ogrenci_ders">
+              <PropertyRef Name="ono" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ogrenci_ders_ibfk_2">
+          <End Role="ders" Type="Self.ders" Multiplicity="1" />
+          <End Role="ogrenci_ders" Type="Self.ogrenci_ders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ders">
+              <PropertyRef Name="did" />
+            </Principal>
+            <Dependent Role="ogrenci_ders">
+              <PropertyRef Name="did" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ogrenci_ibfk_1">
+          <End Role="bolum" Type="Self.bolum" Multiplicity="0..1" />
+          <End Role="ogrenci" Type="Self.ogrenci" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bolum">
+              <PropertyRef Name="bid" />
+            </Principal>
+            <Dependent Role="ogrenci">
+              <PropertyRef Name="bid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ogretmen_ders_ibfk_1">
+          <End Role="ogretmen" Type="Self.ogretmen" Multiplicity="1" />
+          <End Role="ogretmen_ders" Type="Self.ogretmen_ders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ogretmen">
+              <PropertyRef Name="oid" />
+            </Principal>
+            <Dependent Role="ogretmen_ders">
+              <PropertyRef Name="oid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ogretmen_ders_ibfk_2">
+          <End Role="ders" Type="Self.ders" Multiplicity="1" />
+          <End Role="ogretmen_ders" Type="Self.ogretmen_ders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ders">
+              <PropertyRef Name="did" />
+            </Principal>
+            <Dependent Role="ogretmen_ders">
+              <PropertyRef Name="did" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ogretmen_ibfk_1">
+          <End Role="bolum" Type="Self.bolum" Multiplicity="0..1" />
+          <End Role="ogretmen" Type="Self.ogretmen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bolum">
+              <PropertyRef Name="bid" />
+            </Principal>
+            <Dependent Role="ogretmen">
+              <PropertyRef Name="bid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_aciklama" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="vbolid" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="aciklama" Type="varchar" MaxLength="50" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="fn_buyukkharf" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="gelendegerr" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="fn_kayıtsayi" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="gelenisim" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="fn_not" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dersnotu" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ono" Type="int" Nullable="false" />
+                <Property Name="did" Type="int" Nullable="false" />
+                <Property Name="nott" Type="float" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spbolumekle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="vbid" Type="int" Mode="In" />
+          <Parameter Name="vbadi" Type="varchar" Mode="In" />
+          <Parameter Name="vaciklama" Type="varchar" Mode="In" />
+          <Parameter Name="veposta" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spdersekle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="vdid" Type="int" Mode="In" />
+          <Parameter Name="vdadi" Type="varchar" Mode="In" />
+          <Parameter Name="vdkodu" Type="varchar" Mode="In" />
+          <Parameter Name="vkredi" Type="int" Mode="In" />
+          <Parameter Name="vbid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spogrenciekle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="vono" Type="int" Mode="In" />
+          <Parameter Name="vadi" Type="varchar" Mode="In" />
+          <Parameter Name="vsoyadi" Type="varchar" Mode="In" />
+          <Parameter Name="vdyeri" Type="varchar" Mode="In" />
+          <Parameter Name="vbid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spogretmenekle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="void" Type="int" Mode="In" />
+          <Parameter Name="vadi" Type="varchar" Mode="In" />
+          <Parameter Name="vsoyadi" Type="varchar" Mode="In" />
+          <Parameter Name="vdyeri" Type="varchar" Mode="In" />
+          <Parameter Name="vbid" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="db_okulModelStoreContainer">
+          <EntitySet Name="bolum" EntityType="Self.bolum" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ders" EntityType="Self.ders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ogrenci" EntityType="Self.ogrenci" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ogrenci_ders" EntityType="Self.ogrenci_ders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ogretmen" EntityType="Self.ogretmen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ogretmen_ders" EntityType="Self.ogretmen_ders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="ders_ibfk_1" Association="Self.ders_ibfk_1">
+            <End Role="bolum" EntitySet="bolum" />
+            <End Role="ders" EntitySet="ders" />
+          </AssociationSet>
+          <AssociationSet Name="ogrenci_ders_ibfk_1" Association="Self.ogrenci_ders_ibfk_1">
+            <End Role="ogrenci" EntitySet="ogrenci" />
+            <End Role="ogrenci_ders" EntitySet="ogrenci_ders" />
+          </AssociationSet>
+          <AssociationSet Name="ogrenci_ders_ibfk_2" Association="Self.ogrenci_ders_ibfk_2">
+            <End Role="ders" EntitySet="ders" />
+            <End Role="ogrenci_ders" EntitySet="ogrenci_ders" />
+          </AssociationSet>
+          <AssociationSet Name="ogrenci_ibfk_1" Association="Self.ogrenci_ibfk_1">
+            <End Role="bolum" EntitySet="bolum" />
+            <End Role="ogrenci" EntitySet="ogrenci" />
+          </AssociationSet>
+          <AssociationSet Name="ogretmen_ders_ibfk_1" Association="Self.ogretmen_ders_ibfk_1">
+            <End Role="ogretmen" EntitySet="ogretmen" />
+            <End Role="ogretmen_ders" EntitySet="ogretmen_ders" />
+          </AssociationSet>
+          <AssociationSet Name="ogretmen_ders_ibfk_2" Association="Self.ogretmen_ders_ibfk_2">
+            <End Role="ders" EntitySet="ders" />
+            <End Role="ogretmen_ders" EntitySet="ogretmen_ders" />
+          </AssociationSet>
+          <AssociationSet Name="ogretmen_ibfk_1" Association="Self.ogretmen_ibfk_1">
+            <End Role="bolum" EntitySet="bolum" />
+            <End Role="ogretmen" EntitySet="ogretmen" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db_okulModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <ComplexType Name="fn_aciklama_Result">
+          <Property Name="aciklama" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </ComplexType>
+        <ComplexType Name="fn_not_Result">
+          <Property Name="ono" Type="Int32" Nullable="false" />
+          <Property Name="did" Type="Int32" Nullable="false" />
+          <Property Name="nott" Type="Double" />
+        </ComplexType>
+        <EntityType Name="bolum">
+          <Key>
+            <PropertyRef Name="bid" />
+          </Key>
+          <Property Name="bid" Type="Int32" Nullable="false" />
+          <Property Name="badi" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="aciklama" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="eposta" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ders" Relationship="Self.ders_ibfk_1" FromRole="bolum" ToRole="ders" />
+          <NavigationProperty Name="ogrenci" Relationship="Self.ogrenci_ibfk_1" FromRole="bolum" ToRole="ogrenci" />
+          <NavigationProperty Name="ogretmen" Relationship="Self.ogretmen_ibfk_1" FromRole="bolum" ToRole="ogretmen" />
+        </EntityType>
+        <EntityType Name="ders">
+          <Key>
+            <PropertyRef Name="did" />
+          </Key>
+          <Property Name="did" Type="Int32" Nullable="false" />
+          <Property Name="dadi" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dkodu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kredi" Type="Int32" />
+          <Property Name="bid" Type="Int32" />
+          <NavigationProperty Name="bolum" Relationship="Self.ders_ibfk_1" FromRole="ders" ToRole="bolum" />
+          <NavigationProperty Name="ogrenci_ders" Relationship="Self.ogrenci_ders_ibfk_2" FromRole="ders" ToRole="ogrenci_ders" />
+          <NavigationProperty Name="ogretmen" Relationship="Self.ogretmen_ders" FromRole="ders" ToRole="ogretmen" />
+        </EntityType>
+        <EntityType Name="ogrenci">
+          <Key>
+            <PropertyRef Name="ono" />
+          </Key>
+          <Property Name="ono" Type="Int32" Nullable="false" />
+          <Property Name="adi" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="soyadi" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="dyeri" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bid" Type="Int32" />
+          <NavigationProperty Name="bolum" Relationship="Self.ogrenci_ibfk_1" FromRole="ogrenci" ToRole="bolum" />
+          <NavigationProperty Name="ogrenci_ders" Relationship="Self.ogrenci_ders_ibfk_1" FromRole="ogrenci" ToRole="ogrenci_ders" />
+        </EntityType>
+        <EntityType Name="ogrenci_ders">
+          <Key>
+            <PropertyRef Name="ono" />
+            <PropertyRef Name="did" />
+          </Key>
+          <Property Name="ono" Type="Int32" Nullable="false" />
+          <Property Name="did" Type="Int32" Nullable="false" />
+          <Property Name="nott" Type="Double" />
+          <NavigationProperty Name="ders" Relationship="Self.ogrenci_ders_ibfk_2" FromRole="ogrenci_ders" ToRole="ders" />
+          <NavigationProperty Name="ogrenci" Relationship="Self.ogrenci_ders_ibfk_1" FromRole="ogrenci_ders" ToRole="ogrenci" />
+        </EntityType>
+        <EntityType Name="ogretmen">
+          <Key>
+            <PropertyRef Name="oid" />
+          </Key>
+          <Property Name="oid" Type="Int32" Nullable="false" />
+          <Property Name="adi" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="soyadi" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="dyeri" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bid" Type="Int32" />
+          <NavigationProperty Name="bolum" Relationship="Self.ogretmen_ibfk_1" FromRole="ogretmen" ToRole="bolum" />
+          <NavigationProperty Name="ders" Relationship="Self.ogretmen_ders" FromRole="ogretmen" ToRole="ders" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="ders_ibfk_1">
+          <End Role="bolum" Type="Self.bolum" Multiplicity="0..1" />
+          <End Role="ders" Type="Self.ders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bolum">
+              <PropertyRef Name="bid" />
+            </Principal>
+            <Dependent Role="ders">
+              <PropertyRef Name="bid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ogrenci_ibfk_1">
+          <End Role="bolum" Type="Self.bolum" Multiplicity="0..1" />
+          <End Role="ogrenci" Type="Self.ogrenci" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bolum">
+              <PropertyRef Name="bid" />
+            </Principal>
+            <Dependent Role="ogrenci">
+              <PropertyRef Name="bid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ogretmen_ibfk_1">
+          <End Role="bolum" Type="Self.bolum" Multiplicity="0..1" />
+          <End Role="ogretmen" Type="Self.ogretmen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bolum">
+              <PropertyRef Name="bid" />
+            </Principal>
+            <Dependent Role="ogretmen">
+              <PropertyRef Name="bid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ogrenci_ders_ibfk_2">
+          <End Role="ders" Type="Self.ders" Multiplicity="1" />
+          <End Role="ogrenci_ders" Type="Self.ogrenci_ders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ders">
+              <PropertyRef Name="did" />
+            </Principal>
+            <Dependent Role="ogrenci_ders">
+              <PropertyRef Name="did" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ogrenci_ders_ibfk_1">
+          <End Role="ogrenci" Type="Self.ogrenci" Multiplicity="1" />
+          <End Role="ogrenci_ders" Type="Self.ogrenci_ders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ogrenci">
+              <PropertyRef Name="ono" />
+            </Principal>
+            <Dependent Role="ogrenci_ders">
+              <PropertyRef Name="ono" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ogretmen_ders">
+          <End Role="ogretmen" Type="Self.ogretmen" Multiplicity="*" />
+          <End Role="ders" Type="Self.ders" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="db_okulEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="bolum" EntityType="Self.bolum" />
+          <EntitySet Name="ders" EntityType="Self.ders" />
+          <EntitySet Name="ogrenci" EntityType="Self.ogrenci" />
+          <EntitySet Name="ogrenci_ders" EntityType="Self.ogrenci_ders" />
+          <EntitySet Name="ogretmen" EntityType="Self.ogretmen" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="ders_ibfk_1" Association="Self.ders_ibfk_1">
+            <End Role="bolum" EntitySet="bolum" />
+            <End Role="ders" EntitySet="ders" />
+          </AssociationSet>
+          <AssociationSet Name="ogrenci_ibfk_1" Association="Self.ogrenci_ibfk_1">
+            <End Role="bolum" EntitySet="bolum" />
+            <End Role="ogrenci" EntitySet="ogrenci" />
+          </AssociationSet>
+          <AssociationSet Name="ogretmen_ibfk_1" Association="Self.ogretmen_ibfk_1">
+            <End Role="bolum" EntitySet="bolum" />
+            <End Role="ogretmen" EntitySet="ogretmen" />
+          </AssociationSet>
+          <AssociationSet Name="ogrenci_ders_ibfk_2" Association="Self.ogrenci_ders_ibfk_2">
+            <End Role="ders" EntitySet="ders" />
+            <End Role="ogrenci_ders" EntitySet="ogrenci_ders" />
+          </AssociationSet>
+          <AssociationSet Name="ogrenci_ders_ibfk_1" Association="Self.ogrenci_ders_ibfk_1">
+            <End Role="ogrenci" EntitySet="ogrenci" />
+            <End Role="ogrenci_ders" EntitySet="ogrenci_ders" />
+          </AssociationSet>
+          <AssociationSet Name="ogretmen_ders" Association="Self.ogretmen_ders">
+            <End Role="ogretmen" EntitySet="ogretmen" />
+            <End Role="ders" EntitySet="ders" />
+          </AssociationSet>
+          <FunctionImport Name="fn_aciklama" IsComposable="true" ReturnType="Collection(db_okulModel.fn_aciklama_Result)">
+            <Parameter Name="vbolid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="fn_not" IsComposable="true" ReturnType="Collection(db_okulModel.fn_not_Result)">
+            <Parameter Name="dersnotu" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(db_okulModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(db_okulModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="spbolumekle">
+            <Parameter Name="vbid" Mode="In" Type="Int32" />
+            <Parameter Name="vbadi" Mode="In" Type="String" />
+            <Parameter Name="vaciklama" Mode="In" Type="String" />
+            <Parameter Name="veposta" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spdersekle">
+            <Parameter Name="vdid" Mode="In" Type="Int32" />
+            <Parameter Name="vdadi" Mode="In" Type="String" />
+            <Parameter Name="vdkodu" Mode="In" Type="String" />
+            <Parameter Name="vkredi" Mode="In" Type="Int32" />
+            <Parameter Name="vbid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spogrenciekle">
+            <Parameter Name="vono" Mode="In" Type="Int32" />
+            <Parameter Name="vadi" Mode="In" Type="String" />
+            <Parameter Name="vsoyadi" Mode="In" Type="String" />
+            <Parameter Name="vdyeri" Mode="In" Type="String" />
+            <Parameter Name="vbid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spogretmenekle">
+            <Parameter Name="void" Mode="In" Type="Int32" />
+            <Parameter Name="vadi" Mode="In" Type="String" />
+            <Parameter Name="vsoyadi" Mode="In" Type="String" />
+            <Parameter Name="vdyeri" Mode="In" Type="String" />
+            <Parameter Name="vbid" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="db_okulModelStoreContainer" CdmEntityContainer="db_okulEntities">
+          <EntitySetMapping Name="bolum">
+            <EntityTypeMapping TypeName="db_okulModel.bolum">
+              <MappingFragment StoreEntitySet="bolum">
+                <ScalarProperty Name="bid" ColumnName="bid" />
+                <ScalarProperty Name="badi" ColumnName="badi" />
+                <ScalarProperty Name="aciklama" ColumnName="aciklama" />
+                <ScalarProperty Name="eposta" ColumnName="eposta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ders">
+            <EntityTypeMapping TypeName="db_okulModel.ders">
+              <MappingFragment StoreEntitySet="ders">
+                <ScalarProperty Name="did" ColumnName="did" />
+                <ScalarProperty Name="dadi" ColumnName="dadi" />
+                <ScalarProperty Name="dkodu" ColumnName="dkodu" />
+                <ScalarProperty Name="kredi" ColumnName="kredi" />
+                <ScalarProperty Name="bid" ColumnName="bid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ogrenci">
+            <EntityTypeMapping TypeName="db_okulModel.ogrenci">
+              <MappingFragment StoreEntitySet="ogrenci">
+                <ScalarProperty Name="ono" ColumnName="ono" />
+                <ScalarProperty Name="adi" ColumnName="adi" />
+                <ScalarProperty Name="soyadi" ColumnName="soyadi" />
+                <ScalarProperty Name="dyeri" ColumnName="dyeri" />
+                <ScalarProperty Name="bid" ColumnName="bid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ogrenci_ders">
+            <EntityTypeMapping TypeName="db_okulModel.ogrenci_ders">
+              <MappingFragment StoreEntitySet="ogrenci_ders">
+                <ScalarProperty Name="ono" ColumnName="ono" />
+                <ScalarProperty Name="did" ColumnName="did" />
+                <ScalarProperty Name="nott" ColumnName="nott" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ogretmen">
+            <EntityTypeMapping TypeName="db_okulModel.ogretmen">
+              <MappingFragment StoreEntitySet="ogretmen">
+                <ScalarProperty Name="oid" ColumnName="oid" />
+                <ScalarProperty Name="adi" ColumnName="adi" />
+                <ScalarProperty Name="soyadi" ColumnName="soyadi" />
+                <ScalarProperty Name="dyeri" ColumnName="dyeri" />
+                <ScalarProperty Name="bid" ColumnName="bid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="db_okulModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ogretmen_ders" TypeName="db_okulModel.ogretmen_ders" StoreEntitySet="ogretmen_ders">
+            <EndProperty Name="ogretmen">
+              <ScalarProperty Name="oid" ColumnName="oid" />
+            </EndProperty>
+            <EndProperty Name="ders">
+              <ScalarProperty Name="did" ColumnName="did" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionName="db_okulModel.Store.fn_aciklama" FunctionImportName="fn_aciklama">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="db_okulModel.fn_aciklama_Result">
+                <ScalarProperty Name="aciklama" ColumnName="aciklama" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="db_okulModel.Store.fn_not" FunctionImportName="fn_not">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="db_okulModel.fn_not_Result">
+                <ScalarProperty Name="ono" ColumnName="ono" />
+                <ScalarProperty Name="did" ColumnName="did" />
+                <ScalarProperty Name="nott" ColumnName="nott" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="db_okulModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="db_okulModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="db_okulModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="db_okulModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="db_okulModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="db_okulModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="db_okulModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="db_okulModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="db_okulModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="spbolumekle" FunctionName="db_okulModel.Store.spbolumekle" />
+          <FunctionImportMapping FunctionImportName="spdersekle" FunctionName="db_okulModel.Store.spdersekle" />
+          <FunctionImportMapping FunctionImportName="spogrenciekle" FunctionName="db_okulModel.Store.spogrenciekle" />
+          <FunctionImportMapping FunctionImportName="spogretmenekle" FunctionName="db_okulModel.Store.spogretmenekle" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
